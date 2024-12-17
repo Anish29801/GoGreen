@@ -24,7 +24,7 @@ const Hero = () => {
         {/* Text Section */}
         <div className="text-center md:text-left">
           <h1 className="text-4xl font-bold text-green-700 mb-4">
-            Embrace the Beauty of Nature
+            Embrace the Beauty of Mother Nature
           </h1>
           <p className="text-gray-700 text-lg mb-6">
             Experience the journey of growth, sustainability, and green living.
