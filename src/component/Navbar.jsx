@@ -1,4 +1,4 @@
-import { FaShoppingCart, FaTimes } from "react-icons/fa";
+import { FaShoppingCart, FaTimes, FaBars } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../App.css";
@@ -6,37 +6,36 @@ import "../App.css";
 const Navbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cart, setCart] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Load cart from localStorage
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(storedCart);
   }, []);
 
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen);
-  };
+  const toggleCart = () => setIsCartOpen(!isCartOpen);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const removeFromCart = (index) => {
     const updatedCart = cart.filter((_, i) => i !== index);
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
-  const calculateGrandTotal = () => {
-    return cart.reduce((total, item) => {
-      const price = parseFloat(item.price.toString().replace(/[^\d.]/g, "")) || 0;
-      const quantity = parseInt(item.quantity) || 0;
-      return total + price * quantity;
-    }, 0)
-      .toFixed(2);
-  };
 
+  const calculateGrandTotal = () =>
+    cart
+      .reduce((total, item) => {
+        const price = parseFloat(item.price.toString().replace(/[^\d.]/g, "")) || 0;
+        const quantity = parseInt(item.quantity) || 0;
+        return total + price * quantity;
+      }, 0)
+      .toFixed(2);
 
   return (
     <>
       {/* Navbar Section */}
       <nav className="font-inter font-bold bg-[#d5d5d5] border-gray-200">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
           {/* Logo Section */}
           <Link to="/" className="flex items-center">
             <img
@@ -49,9 +48,22 @@ const Navbar = () => {
             </span>
           </Link>
 
+          {/* Mobile Menu Toggle */}
+          <button
+            className="text-green-600 md:hidden text-2xl"
+            onClick={toggleMenu}
+          >
+            {isMenuOpen ? <FaTimes /> : <FaBars />}
+          </button>
+
           {/* Navigation Links */}
-          <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul className="flex flex-col font-medium mt-4 md:mt-0 md:flex-row md:space-x-8">
+          <div
+            className={`${
+              isMenuOpen ? "block" : "hidden"
+            } w-full md:block md:w-auto`}
+            id="navbar-default"
+          >
+            <ul className="flex flex-col md:flex-row font-medium mt-4 md:mt-0 md:space-x-8">
               <li>
                 <Link
                   to="/about"
@@ -95,7 +107,7 @@ const Navbar = () => {
       {/* Shopping Cart Modal */}
       {isCartOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end z-50 font-poppins">
-          <div className="bg-white w-96 h-full p-6 shadow-lg">
+          <div className="bg-white w-full md:w-96 h-full p-6 shadow-lg">
             <button
               className="text-red-600 font-bold mb-4"
               onClick={toggleCart}
