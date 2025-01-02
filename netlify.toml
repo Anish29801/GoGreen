@@ -1,29 +1,25 @@
-# Redirect the root route
+# netlify.toml
+
 [[redirects]]
   from = "/"
   to = "/index.html"
   status = 200
+  force = true
 
-# Redirect the /about route
 [[redirects]]
   from = "/about"
   to = "/index.html"
   status = 200
+  force = true
 
-# Redirect the /products route
 [[redirects]]
   from = "/products"
   to = "/index.html"
   status = 200
+  force = true
 
-# Redirect the /contact route
 [[redirects]]
   from = "/contact"
   to = "/index.html"
   status = 200
-
-# Catch-all redirect for all other routes (important for client-side routing)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  force = true
